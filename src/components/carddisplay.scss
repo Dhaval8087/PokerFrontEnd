@@ -1,0 +1,89 @@
+.card div {
+    background-image: url('../English_pattern_playing_cards_deck.png');
+    background-repeat: no-repeat;
+    background-size: 653px;
+    width: 50px;
+    height: 72px;
+    margin: 5px;
+    display: inline-block;
+    border-radius: 4px;
+    .cell{
+      cursor: pointer;
+    }
+    .selected {
+      padding-top: 8px;
+    }
+  }
+
+  .blank {
+    background-position-x: 100px;
+    background-position-y: 100px;
+  }
+
+  .spade {
+    background-position-y: -2px;
+  }
+
+  .heart {
+    background-position-y: -75px;
+  }
+
+  .diamond {
+    background-position-y: -148px;
+  }
+
+  .club {
+    background-position-y: -221px;
+  }
+
+  .ace {
+    background-position-x: -2px;
+  }
+
+  .two {
+    background-position-x: -51px;
+  }
+
+  .three {
+    background-position-x: -101px;
+  }
+
+  .four {
+    background-position-x: -151px;
+  }
+
+  .five {
+    background-position-x: -201px;
+  }
+
+  .six {
+    background-position-x: -251px;
+  }
+
+  .seven {
+    background-position-x: -301px;
+  }
+
+  .eight {
+    background-position-x: -351px;
+  }
+
+  .nine {
+    background-position-x: -401px;
+  }
+
+  .ten {
+    background-position-x: -451px;
+  }
+
+  .jack {
+    background-position-x: -501px;
+  }
+
+  .queen {
+    background-position-x: -551px;
+  }
+
+  .king {
+    background-position-x: -601px;
+  }

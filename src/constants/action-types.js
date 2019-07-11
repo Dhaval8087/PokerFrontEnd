@@ -1,0 +1,4 @@
+export const GET_CARDS = "GET_CARDS";
+export const CARD_SELECT="CARD_SELECT";
+export const RESET_SELECTED_CARD="RESET_SELECTED_CARD";
+export const GET_SCORES = "GET_SCORES";
