@@ -47,9 +47,6 @@ export default class Analytics extends Component {
     const highScoreRound = 0;
     return (
       <div id="">
-        <button>Deal Next Round</button>
-        <button>Click</button>
-        <span>Shuffled Cards: {highScoreRound}</span>
         <div style={{ height: '500px', width: '800px' }} className="ag-theme-balham">
           <AgGridReact
             columnDefs={this.state.columnDefs}
