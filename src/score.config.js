@@ -1,4 +1,5 @@
 export default {
+    one_pair: 0.5,
     two_pairs: 1,
     three_of_a_kind: 2,
     straight: 4,

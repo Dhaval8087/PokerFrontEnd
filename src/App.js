@@ -3,12 +3,11 @@ import './App.scss';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import toastr from 'toastr';
 
 import { addScore, getCards, getScore, resetSelectedCard, selectedCard } from './actions/cardaction';
 import Analytics from './components/analytics';
 import CardDisaply from './components/carddisplay';
-import { duplicateCards, isFlush, isStraight } from './helper/pokerhand';
+import { duplicateCards, getIndexOfCardBasedOnClass, isStraight } from './helper/pokerhand';
 import scoreConfig from './score.config';
 
 class App extends Component {
@@ -19,64 +18,78 @@ class App extends Component {
       ishand1: true,
       hand: [],
       valuesArray: [],
-      suitsArray: []
+      suitsArray: [],
+      scoreArray: []
     }
   }
   componentDidMount() {
     this.props.getCards();
     this.props.getScore();
   }
-  onCardSelect = (e) => {
-    if (this.state.selectedCardCount < 5) {
-      const id = e.currentTarget.attributes.getNamedItem('data-classid').value;
-      const selectedCardCount = this.state.selectedCardCount + 1;
-      this.state.hand.push(e.currentTarget.id);
-      this.setState({ selectedCardCount });
-      this.props.selectedCard(id);
-      if(this.state.selectedCardCount === 4) {
-        this.convertHand();
-        let score = 0;
-        switch (duplicateCards(this.state.valuesArray)) {
-          case "2":
-            // resultString = "1 Pair";
-            break;
-          case "22":
-            score = score + scoreConfig.two_pairs;
-  
-            break;
-          case "3":
-            score = score + scoreConfig.three_of_a_kind;
-            break;
-          case "23":
-          case "32":
-            score = score + scoreConfig.full_house;
-            break;
-          case "4":
-            score = score + scoreConfig.four_of_a_kind;
-            break;
-          case "5":
-            // resultString = "5 of a Kind";
-            break;
-          default:
-            if (isStraight(this.state.valuesArray)) {
-              score = score + scoreConfig.straight;
-            }
-            break;
-        }
-        if (isFlush(this.state.suitsArray) && score === 0) {
-          score = score + scoreConfig.flush;
-        }
-        const data ={
-          score,
-          iteration:1
-        }
-        this.props.addScore(data);
-        this.setState({ selectedCardCount: 0 });
-        this.props.resetSelectedCard();
-        toastr.success('completed !');
-     
+ 
+  onCalculate = () => {
+    const cards = this.props.cards;
+    let firstRowScore = [];
+    for (let i = 0; i < cards.length; i++) {
+      if (i % 5 === 0) {
+        this.onPushScoreOnArry(firstRowScore);
+        firstRowScore = [];
       }
-    } 
+      firstRowScore.push(getIndexOfCardBasedOnClass(cards[i].rank));
+    }
+    const data = {
+      details: this.state.scoreArray,
+      iteration: 1
+    }
+    this.props.addScore(data);
+  }
+  onPushScoreOnArry = (rowScore) => {
+    const score = this.calculateScore(rowScore);
+    if (score.score > 0) {
+      this.state.scoreArray.push(score);
+    }
+  }
+  
+  calculateScore = (valuesArray) => {
+    let resultString = '';
+    let score = 0;
+    switch (duplicateCards(valuesArray)) {
+      case "2":
+        resultString = "One Pair";
+        score = score + scoreConfig.one_pair;
+        break;
+      case "22":
+        resultString = "Two Pair";
+        score = score + scoreConfig.two_pairs;
+        break;
+      case "3":
+        resultString = "Three of a kind";
+        score = score + scoreConfig.three_of_a_kind;
+        break;
+      case "23":
+      case "32":
+        resultString = "Full House";
+        score = score + scoreConfig.full_house;
+        break;
+      case "4":
+        resultString = "Four of a kind";
+        score = score + scoreConfig.four_of_a_kind;
+        break;
+      case "5":
+        resultString = "Royal Flush";
+        score = score + scoreConfig.royal_flush;
+        break;
+      default:
+        if (isStraight(valuesArray)) {
+          resultString = "Straight";
+          score = score + scoreConfig.straight;
+        }
+        break;
+    }
+    return {
+      resultstring:resultString,
+      score
+    }
   }
   convertHand() {
     const valuesArray = [];
@@ -87,16 +100,21 @@ class App extends Component {
     }
     this.setState({ valuesArray, suitsArray });
   }
+  onNextRound= ()=>{
+    this.onCalculate();
+    this.props.getCards();
+  }
   render() {
     return (
       <div className="App">
         <h2>Poker App</h2>
         <div className="app_container">
           <div className="analytics">
-            <Analytics scores={this.props.scores}/>
+            <button onClick={this.onNextRound}>Shuffle</button>
+            <Analytics scores={this.props.scores} />
           </div>
           <div className="carddispaly">
-            <CardDisaply cards={this.props.cards} onCardSelect={this.onCardSelect} />
+            <CardDisaply cards={this.props.cards} />
           </div>
         </div>
       </div>

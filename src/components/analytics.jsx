@@ -35,21 +35,36 @@ export default class Analytics extends Component {
         },
         {
           headerName: 'Total Score',
-          field: 'score',
+          field: 'totalscore',
           sortable: true,
           cellStyle: { 'text-align': 'right' }
         }
-      ]
+      ],
+      detailCellRendererParams: {
+        detailGridOptions: {
+          columnDefs: [
+            { headerName:'Poker Hand', field: "resultstring", cellStyle: {'text-align': 'left'} },
+            { field: "score", cellStyle: {'text-align': 'left'} }
+          ],
+          onFirstDataRendered(params) {
+            params.api.sizeColumnsToFit();
+          }
+        },
+        getDetailRowData: params => {
+          params.successCallback(params.data.details);
+        }
+      }
     };
   }
  
   render() {
-    const highScoreRound = 0;
     return (
       <div id="">
         <div style={{ height: '500px', width: '800px' }} className="ag-theme-balham">
           <AgGridReact
             columnDefs={this.state.columnDefs}
+            masterDetail={true}
+            detailCellRendererParams={this.state.detailCellRendererParams}
             rowData={this.props.scores}
           />
         </div>

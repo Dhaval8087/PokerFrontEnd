@@ -14,19 +14,14 @@ export default class CardDisplay extends Component {
     let sevenIndex = 0;
     if (!cards) return [];
     return cards.map((item, index) => {
-      let cardClass
-      if (item.selected) {
-        cardClass = `cell selected ${item.rank} ${item.suite}`;
-      } else {
-        cardClass = `cell ${item.rank} ${item.suite}`;
-      }
+      let cardClass = `cell ${item.rank} ${item.suite}`;
       if (index === 5 || sevenIndex === 7) { 
         sevenIndex = 0;
         sevenIndex = sevenIndex + 1;
         return (
           <>
             <br />
-            <div key={item._id} className="cell" id={item.index} data-classid={item._id} onClick={this.props.onCardSelect}>
+            <div key={item._id} className="cell" id={item.rank} data-classid={item._id}>
               <div className={cardClass} />
             </div>
           </>
@@ -36,7 +31,7 @@ export default class CardDisplay extends Component {
         sevenIndex = sevenIndex + 1;
       }
       return (
-        <div key={item._id} className="cell" id={item.index} data-classid={item._id} onClick={this.props.onCardSelect}>
+        <div key={item._id} className="cell" id={item.rank} data-classid={item._id} onClick={this.props.onCardSelect}>
           <div className={cardClass} />
         </div>
       );
