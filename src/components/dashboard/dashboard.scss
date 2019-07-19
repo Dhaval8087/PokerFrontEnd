@@ -1,0 +1,47 @@
+ .cell-move {
+    transition: transform 1s;
+  }
+  
+  .main-buttons {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 30px;
+    margin-bottom: 0 !important;
+  }
+  
+  h1,
+  h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-weight: normal;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  
+  a {
+    color: #42b983;
+  }
+  .dashboard_container {
+    display: flex;
+    &.analytics {
+      width: 45%;
+      margin: 10px;
+      padding-left: 100px;
+    }
+    .carddispaly {
+      width: 50%;
+      margin: 10px;
+      margin-left: 40px;
+    }
+  }
+  
+  

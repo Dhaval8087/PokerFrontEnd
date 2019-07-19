@@ -21,7 +21,7 @@ export default class CardDisplay extends Component {
         return (
           <>
             <br />
-            <div key={item._id} className="cell" id={item.rank} data-classid={item._id}>
+            <div key={item._id} className="cell">
               <div className={cardClass} />
             </div>
           </>
@@ -31,7 +31,7 @@ export default class CardDisplay extends Component {
         sevenIndex = sevenIndex + 1;
       }
       return (
-        <div key={item._id} className="cell" id={item.rank} data-classid={item._id} onClick={this.props.onCardSelect}>
+        <div key={item._id} className="cell">
           <div className={cardClass} />
         </div>
       );
@@ -39,7 +39,7 @@ export default class CardDisplay extends Component {
   };
   render() {
     return (
-      <div className="card">
+      <div className="pokercard">
         {this.renderCard()}
       </div>
     );
